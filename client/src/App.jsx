@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar  from "./components/layout/Navbar";
 import Footer  from "./components/layout/Footer";
 import PageLoader from "./components/ui/PageLoader";
+import RenderWakeup from "./components/ui/RenderWakeup";
 
 import ProtectedRoute from "./components/routing/ProtectedRoute";
 import AdminRoute     from "./components/routing/AdminRoute";
@@ -58,6 +59,7 @@ export default function App() {
       </Suspense>
 
       <Footer />
+      <RenderWakeup />
     </BrowserRouter>
   );
 }

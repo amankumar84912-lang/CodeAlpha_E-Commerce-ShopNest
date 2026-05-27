@@ -1,0 +1,68 @@
+/* ─── Render Cold-Start Wakeup Banner ──────────────────────────── */
+.render-wakeup {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1.25rem;
+  border-radius: 99px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  animation: wakeupSlide 0.3s ease;
+  transition: opacity 0.4s ease;
+}
+
+@keyframes wakeupSlide {
+  from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.render-wakeup--waking {
+  background: rgba(251, 191, 36, 0.15);
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  color: #fbbf24;
+}
+
+.render-wakeup--online {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #10b981;
+}
+
+.render-wakeup__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fbbf24;
+  animation: pulse 1.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+.render-wakeup__time {
+  font-variant-numeric: tabular-nums;
+  opacity: 0.85;
+}
+
+.render-wakeup__sub {
+  opacity: 0.65;
+  font-size: 0.76rem;
+  font-weight: 400;
+}
+
+/* Hide sub-text on small screens */
+@media (max-width: 500px) {
+  .render-wakeup__sub { display: none; }
+  .render-wakeup { font-size: 0.78rem; padding: 0.55rem 1rem; }
+}
