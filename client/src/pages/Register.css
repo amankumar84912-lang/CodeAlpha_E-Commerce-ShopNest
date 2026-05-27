@@ -1,0 +1,121 @@
+/* Register-specific overrides — shared auth-page styles are in Login.css */
+
+.register-page {
+  padding: 0;
+  min-height: 100dvh;
+}
+
+/* ── Split Layout ──────────────────────────────── */
+.register-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100dvh;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Left Hero Panel ───────────────────────────── */
+.register-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12) var(--space-12);
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.08) 0%,
+    rgba(139, 92, 246, 0.06) 50%,
+    transparent 100%
+  );
+  border-right: 1px solid var(--color-border);
+}
+
+.register-hero__content {
+  max-width: 380px;
+}
+
+.register-hero__title {
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  color: var(--color-text-heading);
+  letter-spacing: -1px;
+  line-height: 1.15;
+  margin: var(--space-8) 0 var(--space-4);
+}
+
+.register-hero__subtitle {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin-bottom: var(--space-8);
+}
+
+/* ── Perks List ────────────────────────────────── */
+.register-perks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  list-style: none;
+}
+
+.register-perk {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.register-perk__icon {
+  width: 20px;
+  height: 20px;
+  background: var(--color-success-muted);
+  color: var(--color-success);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.register-perk__icon svg { width: 12px; height: 12px; }
+
+/* ── Right Form Panel ──────────────────────────── */
+.register-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  padding: var(--space-12) var(--space-12);
+  max-width: none;
+  background: var(--color-surface);
+}
+
+/* ── Responsive ────────────────────────────────── */
+@media (max-width: 900px) {
+  .register-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .register-hero {
+    display: none;
+  }
+
+  .register-card {
+    min-height: 100dvh;
+    padding: var(--space-10) var(--space-6);
+    justify-content: center;
+  }
+
+  /* Show brand on mobile since hero is hidden */
+  .register-card .auth-heading {
+    margin-top: var(--space-4);
+  }
+}
+
+@media (max-width: 480px) {
+  .register-card {
+    padding: var(--space-8) var(--space-5);
+  }
+}
