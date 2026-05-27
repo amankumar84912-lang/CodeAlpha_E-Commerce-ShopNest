@@ -9,6 +9,12 @@ const asyncHandler = require("../utils/asyncHandler");
  * Returns razorpayOrderId + key to the frontend for the modal.
  * ────────────────────────────────────────────────── */
 exports.createRazorpayOrder = asyncHandler(async (req, res) => {
+  // Guard: Razorpay not configured (credentials missing on this deployment)
+  if (!razorpay) {
+    res.status(503);
+    throw new Error("Payment service is not configured on this server");
+  }
+
   const { amount, currency = "INR", orderId } = req.body;
 
   if (!amount || amount <= 0) {
@@ -61,6 +67,12 @@ exports.createRazorpayOrder = asyncHandler(async (req, res) => {
  * On success, we mark the order as paid.
  * ────────────────────────────────────────────────── */
 exports.verifyPayment = asyncHandler(async (req, res) => {
+  // Guard: Razorpay not configured
+  if (!razorpay) {
+    res.status(503);
+    throw new Error("Payment service is not configured on this server");
+  }
+
   const {
     razorpayOrderId,
     razorpayPaymentId,
