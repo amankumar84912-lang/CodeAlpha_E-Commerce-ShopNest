@@ -66,3 +66,17 @@
   .render-wakeup__sub { display: none; }
   .render-wakeup { font-size: 0.78rem; padding: 0.55rem 1rem; }
 }
+
+.render-wakeup--timeout {
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  color: #f87171;
+}
+
+.render-wakeup__link {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+

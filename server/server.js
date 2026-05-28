@@ -26,19 +26,22 @@ app.use(helmet());
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://codealpha-e-commerce-shopnest.vercel.app", // Vercel production URL
-  process.env.CLIENT_URL,   // Override via Render env var if using custom domain
+  "https://code-alpha-e-commerce-shop-nest.vercel.app",  // ← actual Vercel URL
+  "https://codealpha-e-commerce-shopnest.vercel.app",    // alternate format
+  process.env.CLIENT_URL,   // set this on Render to your exact Vercel URL
 ].filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (Postman, mobile apps, server-to-server)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) return callback(null, true);
+    if (!origin) return callback(null, true); // Postman / server-to-server
+    // Allow any *.vercel.app preview URL (Vercel generates unique URLs per commit)
+    if (origin.endsWith(".vercel.app")) return callback(null, true);
+    if (allowedOrigins.includes(origin))    return callback(null, true);
     callback(new Error(`CORS: origin ${origin} not allowed`));
   },
   credentials: true,
 }));
+
 
 /* ── Body Parser ── */
 app.use(express.json({ limit: "10kb" }));
