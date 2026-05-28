@@ -128,23 +128,70 @@ CodeAlpha_EcommerceStore/
 
 ---
 
-## 📸 7. Application Visual Previews
+## 📸 Screenshots
 
-<div align="center">
+An intuitive, end-to-end visual walkthrough of the ShopNest full-stack shopping and administrative workflows.
 
-### 💻 Homepage Dashboard
-![Homepage Preview](https://placehold.co/800x450/111118/cbd5e1?text=ShopNest+Homepage+-+Interactive+Glows,+Spotlight,+Curated+Categories)
+### 🏠 Homepage
+<p align="center">
+  <img src="./screenshots/homepage.png" width="900" alt="ShopNest Homepage"/>
+</p>
 
-### 🛍️ Search, Filtering & Product Cards
-![Products Page Preview](https://placehold.co/800x450/111118/cbd5e1?text=ShopNest+Catalog+-+Debounced+Search,+Price+Sorting,+Wishlist+Hearts)
+<br/>
 
-### 🛒 Checkout Experience
-![Checkout Preview](https://placehold.co/800x450/111118/cbd5e1?text=ShopNest+Checkout+-+One-Click+Address+Autofill,+Razorpay+Modal)
+### 🛍️ Products Page
+<p align="center">
+  <img src="./screenshots/products-page.png" width="900" alt="ShopNest Products Catalog"/>
+</p>
 
-### 📊 Admin Analytics Workspace
-![Admin Preview](https://placehold.co/800x450/111118/cbd5e1?text=ShopNest+Admin+-+Cloudinary+Drag-and-Drop,+Analytics+Graphs)
+<br/>
 
-</div>
+### 📦 Product Details
+<p align="center">
+  <img src="./screenshots/product-details.png" width="900" alt="ShopNest Product Details"/>
+</p>
+
+<br/>
+
+### 🛒 Cart Page
+<p align="center">
+  <img src="./screenshots/cart-page.png" width="900" alt="ShopNest Cart Page"/>
+</p>
+
+<br/>
+
+### 💳 Checkout Page
+<p align="center">
+  <img src="./screenshots/checkout-page.png" width="900" alt="ShopNest Checkout Page"/>
+</p>
+
+<br/>
+
+### 🔐 Login Page
+<p align="center">
+  <img src="./screenshots/login-page.png" width="900" alt="ShopNest Login Page"/>
+</p>
+
+<br/>
+
+### 📝 Register Page
+<p align="center">
+  <img src="./screenshots/register-page.png" width="900" alt="ShopNest Register Page"/>
+</p>
+
+<br/>
+
+### 🛠️ Admin Dashboard
+<p align="center">
+  <img src="./screenshots/admin-dashboard.png" width="900" alt="ShopNest Admin Dashboard"/>
+</p>
+
+<br/>
+
+### 📱 Mobile Responsive View
+<p align="center">
+  <img src="./screenshots/mobile-view.png" width="400" alt="ShopNest Mobile View"/>
+</p>
 
 ---
 
