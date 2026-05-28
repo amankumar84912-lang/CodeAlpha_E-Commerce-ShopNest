@@ -1,265 +1,270 @@
-# 🛍️ ShopNest — Full-Stack MERN Ecommerce Platform
+# 🛍️ ShopNest — Production-Grade Full-Stack MERN Ecommerce Platform
 
 <div align="center">
 
-![ShopNest](https://img.shields.io/badge/ShopNest-Ecommerce-6366f1?style=for-the-badge&logo=shopify&logoColor=white)
-![React](https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB_Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
-![Razorpay](https://img.shields.io/badge/Razorpay-02042B?style=for-the-badge&logo=razorpay&logoColor=white)
+[![ShopNest Banner](https://img.shields.io/badge/ShopNest-Ecommerce_Platform-6366f1?style=for-the-badge&logo=shopify&logoColor=white)](https://code-alpha-e-commerce-shop-nest.vercel.app)
 
-**A production-grade ecommerce platform with real payment processing, Cloudinary image uploads, and a professional admin dashboard.**
+[![React](https://img.shields.io/badge/React_19-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)](https://react.dev)
+[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
+[![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com)
+[![MongoDB](https://img.shields.io/badge/MongoDB_Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/cloud/atlas)
+[![Razorpay](https://img.shields.io/badge/Razorpay-02042B?style=for-the-badge&logo=razorpay&logoColor=white)](https://razorpay.com)
+[![JWT](https://img.shields.io/badge/JWT_Authentication-black?style=for-the-badge&logo=json-web-tokens&logoColor=white)](https://jwt.io)
+[![Vercel](https://img.shields.io/badge/Vercel_Frontend-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
+[![Render](https://img.shields.io/badge/Render_Backend-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-[Live Demo](#) · [API Docs](#api-overview) · [Report Bug](issues)
+**ShopNest is a premium, startup-grade full-stack MERN ecommerce application featuring secure Razorpay payments, live Cloudinary media management, a robust role-based admin panel, client-side favorites (Wishlist), and optimized micro-interactions.**
+
+---
+
+### 🌐 Live Platform Links
+
+| Resource | Access Link | Status |
+| :--- | :--- | :--- |
+| **Storefront Web App** | [https://code-alpha-e-commerce-shop-nest.vercel.app](https://code-alpha-e-commerce-shop-nest.vercel.app) | 🟢 Live (Vercel) |
+| **Backend API Gateway** | [https://codealpha-e-commerce-shopnest.onrender.com](https://codealpha-e-commerce-shopnest.onrender.com) | 🟢 Operational (Render) |
+| **API Health Status** | [https://codealpha-e-commerce-shopnest.onrender.com/api/health](https://codealpha-e-commerce-shopnest.onrender.com/api/health) | 🟢 Operational |
+| **GitHub Repository** | [https://github.com/amankumar84912-lang/CodeAlpha_E-Commerce-ShopNest](https://github.com/amankumar84912-lang/CodeAlpha_E-Commerce-ShopNest) | 🟢 Maintained |
 
 </div>
 
 ---
 
-## ✨ Features
+## 📖 3. Project Overview
 
-### 🛒 Shopping Experience
-- **Product catalog** with search, category filters, and sort options
-- **Debounced search** — filters update 300ms after typing stops
-- **Skeleton loaders** — no layout shift while products load
-- **Product detail pages** with ratings, stock status, and add-to-cart
-- **Persistent cart** — cart syncs to MongoDB, survives page refresh
-
-### 💳 Checkout & Payments
-- **Razorpay payment integration** — real test/live payment gateway
-- **Multi-step checkout** — shipping → review → Razorpay modal → confirmation
-- **HMAC signature verification** — server-side payment security
-- **Free shipping** above ₹500 threshold
-
-### 👤 User System
-- **JWT authentication** — register, login, session management
-- **Editable profile** — update name, email, password
-- **Order history** — view all past orders with status and payment info
-- **Auto-logout** on expired tokens with session-expired banner
-
-### 🔧 Admin Dashboard
-- **Product management** — create, edit, delete with live preview
-- **Cloudinary image upload** — drag-and-drop or URL, stored on CDN
-- **Low stock alerts** — dashboard shows products ≤5 units
-- **Category analytics** — visual category breakdown with bar chart
-- **Product search** in admin table
-
-### 🔐 Security
-- `helmet` — HTTP security headers
-- `express-rate-limit` — brute force protection (100 req/15min general, 20 auth)
-- JWT with strong secret, `httpOnly` storage pattern
-- CORS whitelist — only approved origins
-- Graceful shutdown on SIGTERM/SIGINT (Render-compatible)
+ShopNest represents a production-optimized e-commerce architecture designed to emulate modern, fast-growing startup web applications. Built utilizing the MERN (MongoDB, Express, React, Node.js) stack, the project addresses core real-world engineering hurdles such as:
+- **Resilient Cold Starts**: Integrated cold-start detection banners on the frontend that monitor API ping times and alert users when Render backend services are waking up from hibernation, preventing frustrating silent freezes.
+- **Fault-Tolerant Integrations**: Built-in support for optional third-party integrations; the server initializes and boots gracefully even in environments where Razorpay or Cloudinary credentials are omitted.
+- **Secure Transaction Flows**: Multi-stage client checkouts backed by strict, backend-only HMAC-SHA256 signature verification pipelines.
+- **Premium User Experience**: Fast local cache synchronization, search debouncing, layout-shift-free skeleton loading, theme toggling, and quick checkout autofill managers.
 
 ---
 
-## 🧰 Tech Stack
+## ✨ 4. High-Performance Features
 
-| Layer | Technology |
-|---|---|
-| **Frontend** | React 19, Vite 8, React Router DOM 7 |
-| **State** | Context API (Auth, Cart, Toast) |
-| **HTTP Client** | Axios with JWT interceptors |
-| **Backend** | Node.js, Express 5 |
-| **Database** | MongoDB Atlas + Mongoose 9 |
-| **Auth** | JWT + bcryptjs |
-| **Payments** | Razorpay (India payment gateway) |
-| **File Storage** | Cloudinary + Multer |
-| **Security** | Helmet, express-rate-limit |
-| **Deployment** | Vercel (frontend) + Render (backend) |
+### 🛍️ Client & Shopping UX
+* 📱 **Modern Glassmorphic Dark/Light Themes**: Dynamic styling with global state context hooks saving user aesthetic preferences to local storage.
+* ⚡ **Ultra-Fast Search & Debouncing**: Keeps client-side queries extremely smooth by delaying filters 300ms after user keystrokes, drastically reducing client re-renders.
+* 📦 **Layout Shimmer Skeletons**: Zero-cumulative-layout-shift (CLS) experience utilizing responsive CSS skeleton cards matching product card dimensions.
+* ❤️ **Dedicated Wishlist Module (`/wishlist`)**: Personal shopper dashboard displaying favorited items with dynamic, animated removal transitions.
+* 🕒 **Recently Viewed Sidebar**: Intelligent cookie-free client-side session tracker listing recently inspected items at the bottom of detail pages.
+* 📍 **Saved Addresses CRUD**: Fully integrated shipping address card manager directly inside the user profile workspace.
+* ⚡ **One-Click Autofill Checkout**: Let shoppers autofill the multi-step checkout form using saved profile address cards in a single tap.
+* 🛒 **Persistent Shopping Cart**: Syncs item quantities atomically in the background with backend MongoDB collections.
+
+### 🔐 Security & Operations
+* 🔒 **Centralized Express Security**: Full HTTP header protections via Helmet, Mongo query sanitization, XSS mitigation, and strict CORS configs.
+* 🚦 **Brute-Force Rate Limiting**: Centralized limits to prevent endpoints abuse (200 requests/15 minutes general, 20 requests/15 minutes for auth).
+* 🛂 **Role-Based Protection**: Dynamic React Router guard wrappers (`GuestRoute`, `ProtectedRoute`, `AdminRoute`) ensuring rigid dashboard safety.
+* 📊 **Admin Analytics Workspace**: Live dashboards compiling low-stock warnings, inventory monitoring, dynamic bar charts, and text searches.
 
 ---
 
-## 📁 Folder Structure
+## 🛠️ 5. Technology Stack & Architecture
+
+### Stack Architecture Breakdown
+
+```mermaid
+graph TD
+  subgraph Client [Frontend Workspace - Vercel]
+    React[React 19 / Vite] --> Router[React Router DOM 7]
+    React --> Context[Context API State]
+    React --> Axios[Axios + Interceptors]
+  end
+
+  subgraph Server [Backend Workspace - Render]
+    Axios --> CORS[CORS / Helmet Gate]
+    CORS --> Limiter[Rate Limiters]
+    Limiter --> Routes[Express Route Routers]
+    Routes --> Middleware[JWT / Upload Middlewares]
+    Middleware --> Controllers[Feature Controllers]
+  end
+
+  subgraph Database [Database & Cloud CDN]
+    Controllers --> Mongoose[Mongoose Schema Validation]
+    Mongoose --> MongoDB[(MongoDB Atlas Cloud)]
+    Controllers --> Cloudinary[(Cloudinary Storage CDN)]
+    Controllers --> Razorpay[(Razorpay Payment Portal)]
+  end
+```
+
+- **Frontend Separation**: Built entirely on top of React 19 and Vite 8 for instant hot-module replacements (HMR) and optimized vendor code splitting.
+- **State Management**: Zero complex boilerplate state management tools; uses granular Context hooks (Auth, Cart, Wishlist, Toast, Theme) to keep memory footprint exceptionally small.
+- **RESTful Backend Separation**: Purely stateless Express 5 API server communicating over standard JSON structures.
+
+---
+
+## 📁 6. Project Folder Tree
 
 ```
 CodeAlpha_EcommerceStore/
-├── client/                    # React frontend (Vite)
+├── client/                     # Frontend Client Bundle (Vite)
+│   ├── public/                 # Static assets and site icons
 │   ├── src/
-│   │   ├── components/
-│   │   │   ├── layout/        # Navbar, Footer
-│   │   │   ├── product/       # ProductCard, StarRating
-│   │   │   ├── routing/       # ProtectedRoute, AdminRoute, GuestRoute
-│   │   │   └── ui/            # Spinner, Toast, SkeletonCard, PageLoader
-│   │   ├── context/           # AuthContext, CartContext, ToastContext
-│   │   ├── hooks/             # useDebounce
-│   │   ├── pages/             # All page components
-│   │   ├── services/          # API service functions (api.js, cartService.js, etc.)
-│   │   └── App.jsx            # Router + lazy loading
-│   ├── .env                   # Development env (localhost)
-│   ├── .env.production        # Production env (Vercel → Render)
-│   └── vercel.json            # SPA routing + asset caching
+│   │   ├── components/         # Modular Components Workspace
+│   │   │   ├── layout/         # Header Navbar, Sticky Footer
+│   │   │   ├── product/        # ProductCard, StarRating layouts
+│   │   │   ├── routing/        # ProtectedRoute, AdminRoute guards
+│   │   │   └── ui/             # PageLoader, Skeletons, Toasts, Wakeup
+│   │   ├── context/            # Global contexts (Auth, Cart, Wishlist, Theme)
+│   │   ├── hooks/              # Custom utilities (useDebounce)
+│   │   ├── pages/              # Application Views (Wishlist, Admin, Profile, Cart)
+│   │   ├── services/           # Granular API Client Services (Axios singletons)
+│   │   ├── App.jsx             # SPA routing mapping + lazy load bundles
+│   │   └── main.jsx            # Context aggregation mount point
+│   ├── vercel.json             # Single-Page SPA fallback configuration
+│   └── vite.config.js          # Production code chunk splitter config
 │
-└── server/                    # Node/Express backend
-    ├── controllers/           # Business logic per feature
-    ├── middleware/             # auth, error, upload
-    ├── models/                # Mongoose schemas (User, Product, Cart, Order)
-    ├── routes/                # Express route definitions
-    ├── utils/                 # asyncHandler, razorpay, cloudinary singletons
-    ├── seeder.js              # Demo data seed script
-    └── server.js              # App entry point
+└── server/                     # Backend API Gateway Service
+    ├── controllers/            # Pure business logic per API feature
+    ├── middleware/             # Role guards, upload controllers, errors
+    ├── models/                 # Database Mongoose Schemas (User, Product, Cart, Order)
+    ├── routes/                 # Express route endpoint definitions
+    ├── utils/                  # Singletons (Cloudinary, Razorpay handler)
+    ├── seeder.js               # Demographic database seed pipeline
+    └── server.js               # Node entry point + graceful exit handlers
 ```
 
 ---
 
-## 🚀 Local Setup
+## 📸 7. Application Visual Previews
+
+<div align="center">
+
+### 💻 Homepage Dashboard
+![Homepage Preview](https://placehold.co/800x450/111118/cbd5e1?text=ShopNest+Homepage+-+Interactive+Glows,+Spotlight,+Curated+Categories)
+
+### 🛍️ Search, Filtering & Product Cards
+![Products Page Preview](https://placehold.co/800x450/111118/cbd5e1?text=ShopNest+Catalog+-+Debounced+Search,+Price+Sorting,+Wishlist+Hearts)
+
+### 🛒 Checkout Experience
+![Checkout Preview](https://placehold.co/800x450/111118/cbd5e1?text=ShopNest+Checkout+-+One-Click+Address+Autofill,+Razorpay+Modal)
+
+### 📊 Admin Analytics Workspace
+![Admin Preview](https://placehold.co/800x450/111118/cbd5e1?text=ShopNest+Admin+-+Cloudinary+Drag-and-Drop,+Analytics+Graphs)
+
+</div>
+
+---
+
+## 🚀 8. Setup & Installation Guide
 
 ### Prerequisites
-- Node.js 18+
-- MongoDB Atlas account
-- Razorpay test account
-- Cloudinary account
+- Node.js version `18.x` or higher installed.
+- MongoDB Atlas cluster URL.
+- Cloudinary developer API credentials.
+- Razorpay test keys (optional - system boots with fallback without them).
 
-### 1. Clone the repo
+### 1. Clone the Codebase
 ```bash
-git clone https://github.com/YOUR_USERNAME/shopnest.git
-cd shopnest
+git clone https://github.com/amankumar84912-lang/CodeAlpha_E-Commerce-ShopNest.git
+cd CodeAlpha_E-Commerce-ShopNest
 ```
 
-### 2. Backend setup
+### 2. Configure Backend Services
 ```bash
 cd server
 npm install
 ```
-
-Create `server/.env`:
+Create a `.env` file in the `server` directory:
 ```env
 PORT=5000
 NODE_ENV=development
-MONGO_URI=mongodb+srv://YOUR_USER:YOUR_PASS@cluster0.xxxxx.mongodb.net/shopnest
-JWT_SECRET=your_super_strong_jwt_secret_min_32_chars
+MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/shopnest
+JWT_SECRET=your_minimum_32_characters_long_super_secret_jwt_key
 CLIENT_URL=http://localhost:5173
 
-# Razorpay (get from dashboard.razorpay.com)
-RAZORPAY_KEY_ID=rzp_test_XXXXXXXXXX
-RAZORPAY_KEY_SECRET=XXXXXXXXXXXXXXXXXX
+# Razorpay Payment Gateway (Optional test keys)
+RAZORPAY_KEY_ID=rzp_test_YourRazorpayKeyId
+RAZORPAY_KEY_SECRET=YourRazorpaySecretKey
 
-# Cloudinary (get from cloudinary.com)
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
+# Cloudinary Storage Gateway (For Admin uploads)
+CLOUDINARY_CLOUD_NAME=your_cloudinary_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
-
+Seed initial data and boot the server:
 ```bash
-npm run dev        # Start development server (nodemon)
-npm run seed       # Seed 20 demo products
+npm run seed     # Seeds 20 high-fidelity test products
+npm run dev      # Launches dev listener at http://localhost:5000
 ```
 
-### 3. Frontend setup
+### 3. Configure Frontend Client
 ```bash
 cd ../client
 npm install
+npm run dev      # Launches dev listener at http://localhost:5173
 ```
 
-`client/.env` is already configured for localhost. Just run:
-```bash
-npm run dev        # http://localhost:5173
-```
+---
 
-### 4. Create admin account
-Register a user, then in MongoDB Atlas set `"isAdmin": true` on their document.
+## 📡 10. Core REST API Endpoints Reference
+
+### User Authentication Routes
+| Method | Endpoint | Auth Level | Description |
+| :--- | :--- | :--- | :--- |
+| **POST** | `/api/auth/register` | Public | Registers a new shopper profile |
+| **POST** | `/api/auth/login` | Public | Exchanges credentials for a 30-day JWT |
+| **PUT** | `/api/auth/profile` | Signed User | Modifies name, email, or security passwords |
+
+### Product Catalog Routes
+| Method | Endpoint | Auth Level | Description |
+| :--- | :--- | :--- | :--- |
+| **GET** | `/api/products` | Public | Returns debounced catalogue filters and sorting |
+| **GET** | `/api/products/:id` | Public | Returns detailed catalog document |
+| **POST** | `/api/products` | Admin Only | Inserts new product to catalogue database |
+| **PUT** | `/api/products/:id` | Admin Only | Updates catalog properties dynamically |
+| **DELETE** | `/api/products/:id` | Admin Only | Deletes catalog document permanently |
+
+### Shopping Cart Routes
+| Method | Endpoint | Auth Level | Description |
+| :--- | :--- | :--- | :--- |
+| **GET** | `/api/cart` | Signed User | Fetches populated cart list for current shopper |
+| **POST** | `/api/cart` | Signed User | Inserts catalog item with desired quantity |
+| **PUT** | `/api/cart/:productId` | Signed User | Modifies target item quantity atomically |
+| **DELETE** | `/api/cart/:productId` | Signed User | Removes target item from cart |
+| **DELETE** | `/api/cart` | Signed User | Clears all items (after order placement) |
+
+### Order & Payments Routes
+| Method | Endpoint | Auth Level | Description |
+| :--- | :--- | :--- | :--- |
+| **POST** | `/api/orders` | Signed User | Places COD order or creates pending order |
+| **GET** | `/api/orders` | Signed User | Fetches historical order summary for user |
+| **POST** | `/api/payment/create-order` | Signed User | Registers an order instance directly on Razorpay |
+| **POST** | `/api/payment/verify` | Signed User | Verifies Razorpay signatures using HMAC-SHA256 |
 
 ---
 
-## 🌐 Deployment
+## 🎯 15. Engineering Challenges & Core Learnings
 
-### Backend → Render
+During production launch and optimization phases, several high-impact engineering hurdles were identified and resolved:
 
-1. Push code to GitHub
-2. Create a new **Web Service** on [render.com](https://render.com)
-3. Root directory: `server`
-4. Build command: `npm install`
-5. Start command: `node server.js`
-6. Add all environment variables from `server/.env`
-7. Note your Render URL: `https://shopnest-api.onrender.com`
+### 1. Resilient Cold-Start Handling
+- **Challenge**: The API is deployed on a free tier of Render which hibernates after 15 minutes of inactivity. When a fresh user loaded the page, Axios requests failed or took over 50 seconds to complete, creating a broken visual experience.
+- **Solution**: Developed a lightweight [RenderWakeup.jsx](file:///d:/Onedrive/Desktop/CodeAlpha_EcommerceStore/client/src/components/ui/RenderWakeup.jsx) banner. It queries the `/api/health` gateway on site load. If a cold start latency is detected, it renders a subtle, animated glassmorphic bar indicating the database server is booting, maintaining transparency with users.
 
-### Frontend → Vercel
+### 2. Optional Payment Gateway Resilience
+- **Challenge**: Standard Razorpay client initialization crashes the entire Node process during startup if environment credentials are missing, causing deployment failures for reviewers without active merchant IDs.
+- **Solution**: Refactored the core singleton in [razorpay.js](file:///d:/Onedrive/Desktop/CodeAlpha_EcommerceStore/server/utils/razorpay.js) to catch errors silently, fallback to COD (Cash on Delivery) routes gracefully if test keys are absent, and log warning flags without process terminations.
 
-1. Create a new project on [vercel.com](https://vercel.com)
-2. Root directory: `client`
-3. Framework: Vite
-4. Add environment variable:
-   - `VITE_API_URL` = `https://shopnest-api.onrender.com/api`
-5. Deploy — SPA routing is handled by `vercel.json`
-
-### Post-deployment
-- Update `CLIENT_URL` on Render to your Vercel URL
-- Whitelist `0.0.0.0/0` in MongoDB Atlas → Network Access
+### 3. Cumulative Layout Shift Optimization
+- **Challenge**: Fast asynchronous product image listings were inflating layout cards unevenly as image assets downloaded, throwing off scrolling states.
+- **Solution**: Constrained the responsive image blocks inside fixed aspect-ratio wrapper divs with absolute-centered image tags, added lazy loading attributes to all cards, and implemented smooth shimmer skeletons during image loading.
 
 ---
 
-## 📡 API Overview
+## 👨‍💻 16. Author Profiles
 
-| Method | Endpoint | Auth | Description |
-|---|---|---|---|
-| POST | `/api/auth/register` | — | Register new user |
-| POST | `/api/auth/login` | — | Login, returns JWT |
-| GET | `/api/products` | — | Get all products (search/filter/sort) |
-| GET | `/api/products/:id` | — | Get single product |
-| POST | `/api/products` | Admin | Create product |
-| PUT | `/api/products/:id` | Admin | Update product |
-| DELETE | `/api/products/:id` | Admin | Delete product |
-| GET | `/api/cart` | User | Get user's cart |
-| POST | `/api/cart` | User | Add item to cart |
-| PUT | `/api/cart/:productId` | User | Update item quantity |
-| DELETE | `/api/cart/:productId` | User | Remove item |
-| DELETE | `/api/cart` | User | Clear cart |
-| POST | `/api/orders` | User | Place order |
-| GET | `/api/orders` | User | Get my orders |
-| POST | `/api/payment/create-order` | User | Create Razorpay order |
-| POST | `/api/payment/verify` | User | Verify payment HMAC |
-| POST | `/api/upload` | Admin | Upload image to Cloudinary |
-| GET | `/api/health` | — | Health check |
+**Amandeep Kumar**
+- 🎓 **Academic**: B.Tech Computer Science & Engineering Student
+- 💼 **Specialization**: Full Stack Developer / MERN Engineer
+- 🌐 **LinkedIn**: [Amandeep Kumar Placeholder](#)
+- 🖥️ **Developer Portfolio**: [amankumar-portfolio.dev](#)
+- ✉️ **Email Contact**: [amandeep.kumar@example.com](#)
 
 ---
 
-## 🔐 Environment Variables Reference
+## 📄 17. License
 
-### Server (`server/.env`)
-| Variable | Description |
-|---|---|
-| `PORT` | Server port (default 5000) |
-| `NODE_ENV` | `development` or `production` |
-| `MONGO_URI` | MongoDB Atlas connection string |
-| `JWT_SECRET` | Min 32-char random string |
-| `CLIENT_URL` | Frontend URL for CORS |
-| `RAZORPAY_KEY_ID` | From Razorpay dashboard |
-| `RAZORPAY_KEY_SECRET` | From Razorpay dashboard |
-| `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name |
-| `CLOUDINARY_API_KEY` | Cloudinary API key |
-| `CLOUDINARY_API_SECRET` | Cloudinary API secret |
-
-### Client (`client/.env.production`)
-| Variable | Description |
-|---|---|
-| `VITE_API_URL` | Backend API base URL |
-| `VITE_APP_NAME` | App display name |
-| `VITE_ENVIRONMENT` | `production` |
-
----
-
-## 📸 Screenshots
-
-> _Add screenshots here after deployment_
-
-| Page | Description |
-|---|---|
-| Homepage | Hero banner, featured products |
-| Products | Search, filter, sort, skeleton loaders |
-| Product Detail | Gallery, ratings, add to cart |
-| Cart | Item management, order summary |
-| Checkout | Multi-step form + Razorpay |
-| Orders | Order history with status |
-| Admin Dashboard | Product management, analytics |
-
----
-
-## 👨‍💻 Author
-
-Built as a production-grade portfolio project demonstrating full-stack MERN development with real payment integration, cloud storage, and deployment infrastructure.
-
----
-
-## 📄 License
-
-MIT
+This project is licensed under the terms of the [MIT License](https://opensource.org/licenses/MIT).
