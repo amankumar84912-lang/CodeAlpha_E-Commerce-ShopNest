@@ -259,9 +259,9 @@ During production launch and optimization phases, several high-impact engineerin
 **Amandeep Kumar**
 - 🎓 **Academic**: B.Tech Computer Science & Engineering Student
 - 💼 **Specialization**: Full Stack Developer / MERN Engineer
-- 🌐 **LinkedIn**: [Amandeep Kumar Placeholder](#)
+- 🌐 **LinkedIn**: [www.linkedin.com/in/amandeep-kumar-266780253](#)
 - 🖥️ **Developer Portfolio**: [amankumar-portfolio.dev](#)
-- ✉️ **Email Contact**: [amandeep.kumar@example.com](#)
+- ✉️ **Email Contact**: [amankumar84912@gmail.com](#)
 
 ---
 
