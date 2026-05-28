@@ -171,6 +171,51 @@
   line-height: 1;
 }
 
+/* ── Wishlist Button ──────────────────────────── */
+.navbar__wishlist-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  color: var(--color-text-secondary);
+  transition: color var(--transition-base), background-color var(--transition-base);
+}
+
+.navbar__wishlist-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.navbar__wishlist-btn:hover {
+  color: var(--color-text-heading);
+  background: var(--color-surface-elevated);
+}
+
+.navbar__wishlist-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background: var(--color-error);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.drawer__badge--wishlist {
+  background: var(--color-error);
+}
+
 /* ── Avatar Button ────────────────────────────── */
 .navbar__user {
   position: relative;

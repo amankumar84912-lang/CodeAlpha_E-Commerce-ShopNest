@@ -157,8 +157,17 @@ function OrderMini({ cartItems, cartTotal }) {
 }
 
 /* ── Step 1: Shipping Form ── */
-function ShippingForm({ form, onChange, onNext }) {
+function ShippingForm({ form, onChange, onNext, onAutofill }) {
   const { user } = useContext(AuthContext);
+  const [savedAddresses, setSavedAddresses] = useState([]);
+
+  useEffect(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("shopnest-addresses") || "[]");
+      setSavedAddresses(saved);
+    } catch {}
+  }, []);
+
   const isValid  =
     form.address.trim().length >= 5 &&
     form.city.trim().length >= 2 &&
@@ -171,6 +180,34 @@ function ShippingForm({ form, onChange, onNext }) {
         <MapPinIcon />
         <h2>Shipping Information</h2>
       </div>
+
+      {savedAddresses.length > 0 && (
+        <div className="saved-addresses-selector" style={{ marginBottom: "var(--space-6)" }}>
+          <label className="form-label" style={{ fontSize: "var(--text-xs)", color: "var(--color-text-secondary)", marginBottom: "var(--space-2)", display: "block" }}>
+            ⚡ Quick Fill from Saved Addresses
+          </label>
+          <div style={{ display: "flex", gap: "var(--space-2)", flexWrap: "wrap" }}>
+            {savedAddresses.map((addr) => (
+              <button
+                key={addr.id}
+                type="button"
+                className="btn btn-outline btn-sm"
+                style={{ padding: "6px 12px", fontSize: "var(--text-xs)", borderRadius: "var(--radius-full)", background: "var(--color-surface-elevated)" }}
+                onClick={() => {
+                  onAutofill({
+                    address: addr.address,
+                    city: addr.city,
+                    postalCode: addr.postalCode,
+                    country: addr.country
+                  });
+                }}
+              >
+                {addr.label === "Home" ? "🏠 Home" : addr.label === "Office" ? "💼 Office" : `📍 ${addr.customLabel || "Other"}`}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="form-group">
         <label className="form-label"><UserIcon /> Contact name</label>
@@ -442,7 +479,7 @@ export default function CheckoutPage() {
         <div className="checkout-layout">
           <div className="checkout-main">
             {step === 1 ? (
-              <ShippingForm form={form} onChange={update} onNext={() => setStep(2)} />
+              <ShippingForm form={form} onChange={update} onNext={() => setStep(2)} onAutofill={(addr) => setForm(addr)} />
             ) : (
               <ReviewAndPay
                 form={form}

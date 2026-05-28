@@ -1,9 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { getProductById } from "../services/productService";
+import { getProductById, getProducts } from "../services/productService";
 import { AuthContext } from "../context/AuthContext";
 import { CartContext } from "../context/CartContext";
 import { useToastContext } from "../context/ToastContext";
+import ProductCard from "../components/product/ProductCard";
 import Spinner from "../components/ui/Spinner";
 import StarRating from "../components/ui/StarRating";
 import "./ProductDetailPage.css";
@@ -97,6 +98,8 @@ export default function ProductDetailPage() {
   const { addToCart }    = useContext(CartContext);
   const { showToast }    = useToastContext();
 
+  const [recentProducts, setRecentProducts] = useState([]);
+
   /* ── Fetch product ── */
   useEffect(() => {
     const fetch = async () => {
@@ -117,6 +120,27 @@ export default function ProductDetailPage() {
     };
     fetch();
   }, [id]);
+
+  /* ── Recently Viewed tracking ── */
+  useEffect(() => {
+    if (product && product._id) {
+      try {
+        const stored = JSON.parse(localStorage.getItem("shopnest-recent-viewed") || "[]");
+        const filtered = stored.filter((x) => x !== product._id);
+        const updated  = [product._id, ...filtered].slice(0, 4);
+        localStorage.setItem("shopnest-recent-viewed", JSON.stringify(updated));
+
+        getProducts()
+          .then(({ data }) => {
+            const matched = data.filter((p) => filtered.includes(p._id));
+            setRecentProducts(matched);
+          })
+          .catch(() => {});
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, [product]);
 
   /* ── Add to cart ── */
   const handleAddToCart = async () => {
@@ -323,6 +347,25 @@ export default function ProductDetailPage() {
           </div>
         </div>
       </div>
+
+      {/* ── Recently Viewed Products ── */}
+      {recentProducts.length > 0 && (
+        <section className="recent-viewed-section" style={{ marginTop: "var(--space-16)", borderTop: "1px solid var(--color-border)", paddingTop: "var(--space-12)", paddingBottom: "var(--space-12)" }}>
+          <div className="container">
+            <h2 className="section-title" style={{ fontSize: "var(--text-2xl)", fontWeight: 800, color: "var(--color-text-heading)", marginBottom: "var(--space-1)", letterSpacing: "-0.5px" }}>
+              Recently Viewed
+            </h2>
+            <p className="section-subtitle" style={{ fontSize: "var(--text-sm)", color: "var(--color-text-secondary)", marginBottom: "var(--space-6)" }}>
+              Items you inspected recently on your shopping trip
+            </p>
+            <div className="products-grid">
+              {recentProducts.map((p) => (
+                <ProductCard key={p._id} product={p} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

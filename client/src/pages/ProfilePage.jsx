@@ -159,6 +159,24 @@ export default function ProfilePage() {
   const [newPassword,     setNewPassword]     = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  /* ── Saved Addresses states ── */
+  const [addresses, setAddresses] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem("shopnest-addresses") || "[]");
+    } catch {
+      return [];
+    }
+  });
+  const [showAddressForm, setShowAddressForm] = useState(false);
+  const [editingAddressId, setEditingAddressId] = useState(null);
+  const [addressForm, setAddressForm] = useState({
+    label: "Home",
+    address: "",
+    city: "",
+    postalCode: "",
+    country: "India",
+  });
+
   /* Init form from user */
   useEffect(() => {
     if (user) {
@@ -228,6 +246,53 @@ export default function ProfilePage() {
     } finally {
       setSaving(false);
     }
+  };
+
+  /* ── Address CRUD Operations ── */
+  const saveAddresses = (newAddrs) => {
+    setAddresses(newAddrs);
+    localStorage.setItem("shopnest-addresses", JSON.stringify(newAddrs));
+  };
+
+  const handleSaveAddress = (e) => {
+    e.preventDefault();
+    if (!addressForm.address.trim()) { showToast("Address is required", "error"); return; }
+    if (!addressForm.city.trim()) { showToast("City is required", "error"); return; }
+    if (!/^\d{6}$/.test(addressForm.postalCode.trim())) { showToast("Postal Code must be a 6-digit number", "error"); return; }
+
+    if (editingAddressId) {
+      const updated = addresses.map((addr) =>
+        addr.id === editingAddressId ? { ...addressForm, id: editingAddressId } : addr
+      );
+      saveAddresses(updated);
+      showToast("Address updated successfully!", "success");
+    } else {
+      const newAddr = { ...addressForm, id: Date.now().toString() };
+      saveAddresses([...addresses, newAddr]);
+      showToast("Address saved successfully! 🏠", "success");
+    }
+
+    setAddressForm({ label: "Home", address: "", city: "", postalCode: "", country: "India" });
+    setEditingAddressId(null);
+    setShowAddressForm(false);
+  };
+
+  const handleDeleteAddress = (id) => {
+    const updated = addresses.filter((addr) => addr.id !== id);
+    saveAddresses(updated);
+    showToast("Address deleted.", "info");
+  };
+
+  const handleStartEditAddress = (addr) => {
+    setEditingAddressId(addr.id);
+    setAddressForm({
+      label: addr.label,
+      address: addr.address,
+      city: addr.city,
+      postalCode: addr.postalCode,
+      country: addr.country,
+    });
+    setShowAddressForm(true);
   };
 
   return (
@@ -434,6 +499,181 @@ export default function ProfilePage() {
           </section>
 
         </div>
+
+        {/* ── Saved Addresses Section (Full-Width card) ── */}
+        <section className="profile-section profile-addresses" style={{ marginTop: "var(--space-6)" }}>
+          <div className="profile-section__head" style={{ marginBottom: "var(--space-4)" }}>
+            <h2 className="profile-section__title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" style={{ width: 20, height: 20 }}>
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
+              </svg>
+              Saved Addresses
+            </h2>
+            {!showAddressForm && (
+              <button
+                className="btn btn-ghost btn-sm profile-edit-btn"
+                onClick={() => {
+                  setEditingAddressId(null);
+                  setAddressForm({ label: "Home", address: "", city: "", postalCode: "", country: "India" });
+                  setShowAddressForm(true);
+                }}
+              >
+                + Add Address
+              </button>
+            )}
+          </div>
+
+          {showAddressForm ? (
+            <form className="profile-form" onSubmit={handleSaveAddress} noValidate style={{ maxWidth: "600px" }}>
+              <div className="form-row">
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label htmlFor="addr-label" className="form-label">Address Label</label>
+                  <select
+                    id="addr-label"
+                    className="form-input"
+                    style={{ width: "100%" }}
+                    value={addressForm.label}
+                    onChange={(e) => setAddressForm({ ...addressForm, label: e.target.value })}
+                  >
+                    <option value="Home">Home</option>
+                    <option value="Office">Office</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                {addressForm.label === "Other" && (
+                  <div className="form-group" style={{ flex: 1 }}>
+                    <label htmlFor="addr-custom-label" className="form-label">Custom Tag Name</label>
+                    <input
+                      id="addr-custom-label"
+                      type="text"
+                      className="form-input"
+                      placeholder="e.g. Vacation"
+                      value={addressForm.customLabel || ""}
+                      onChange={(e) => setAddressForm({ ...addressForm, customLabel: e.target.value })}
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="addr-street" className="form-label">Street Address *</label>
+                <input
+                  id="addr-street"
+                  type="text"
+                  className="form-input"
+                  placeholder="123 Main St, Apartment 4B"
+                  value={addressForm.address}
+                  onChange={(e) => setAddressForm({ ...addressForm, address: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div className="form-row">
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label htmlFor="addr-city" className="form-label">City *</label>
+                  <input
+                    id="addr-city"
+                    type="text"
+                    className="form-input"
+                    placeholder="Mumbai"
+                    value={addressForm.city}
+                    onChange={(e) => setAddressForm({ ...addressForm, city: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="form-group" style={{ flex: 1 }}>
+                  <label htmlFor="addr-zip" className="form-label">Pin Code *</label>
+                  <input
+                    id="addr-zip"
+                    type="text"
+                    className="form-input"
+                    placeholder="400001"
+                    maxLength={6}
+                    value={addressForm.postalCode}
+                    onChange={(e) => setAddressForm({ ...addressForm, postalCode: e.target.value })}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="addr-country" className="form-label">Country *</label>
+                <select
+                  id="addr-country"
+                  className="form-input"
+                  value={addressForm.country}
+                  onChange={(e) => setAddressForm({ ...addressForm, country: e.target.value })}
+                >
+                  <option value="India">India</option>
+                  <option value="United States">United States</option>
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="Canada">Canada</option>
+                  <option value="Australia">Australia</option>
+                  <option value="UAE">UAE</option>
+                  <option value="Singapore">Singapore</option>
+                </select>
+              </div>
+
+              <div className="profile-form__actions">
+                <button type="submit" className="btn btn-primary">
+                  {editingAddressId ? "Update Address" : "Save Address"}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    setShowAddressForm(false);
+                    setEditingAddressId(null);
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          ) : addresses.length === 0 ? (
+            <div className="profile-addresses__empty" style={{ textAlign: "center", padding: "var(--space-6) 0", color: "var(--color-text-secondary)" }}>
+              <p>You haven't saved any shipping addresses yet.</p>
+              <button
+                className="btn btn-outline btn-sm"
+                style={{ marginTop: "var(--space-3)" }}
+                onClick={() => setShowAddressForm(true)}
+              >
+                Add Your First Address
+              </button>
+            </div>
+          ) : (
+            <div className="profile-addresses__grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "var(--space-4)", marginTop: "var(--space-2)" }}>
+              {addresses.map((addr) => (
+                <div key={addr.id} className="address-card" style={{ position: "relative", border: "1px solid var(--color-border)", borderRadius: "var(--radius-md)", padding: "var(--space-4)", background: "var(--color-surface)", display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-2)" }}>
+                    <span className="badge badge-accent" style={{ fontSize: "var(--text-xs)", textTransform: "uppercase" }}>
+                      {addr.label === "Home" ? "🏠 Home" : addr.label === "Office" ? "💼 Office" : `📍 ${addr.customLabel || "Other"}`}
+                    </span>
+                    <div style={{ display: "flex", gap: "var(--space-2)" }}>
+                      <button
+                        title="Edit address"
+                        style={{ color: "var(--color-text-secondary)", fontSize: "var(--text-xs)", padding: "4px" }}
+                        onClick={() => handleStartEditAddress(addr)}
+                      >
+                        ✏️
+                      </button>
+                      <button
+                        title="Delete address"
+                        style={{ color: "var(--color-error)", fontSize: "var(--text-xs)", padding: "4px" }}
+                        onClick={() => handleDeleteAddress(addr.id)}
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  </div>
+                  <p style={{ fontSize: "var(--text-sm)", color: "var(--color-text-heading)", fontWeight: 500 }}>{addr.address}</p>
+                  <p style={{ fontSize: "var(--text-xs)", color: "var(--color-text-secondary)" }}>{addr.city} — {addr.postalCode}</p>
+                  <p style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)" }}>{addr.country}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
 
         {/* ══ Recent orders preview ══ */}
         {!ordersLoading && orders.length > 0 && (

@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { CartContext } from "../../context/CartContext";
 import { useToastContext } from "../../context/ToastContext";
 import { useTheme } from "../../context/ThemeContext";
+import { useWishlist } from "../../context/WishlistContext";
 import "./Navbar.css";
 
 /* ── SVG Icons ── */
@@ -84,6 +85,7 @@ export default function Navbar() {
   const { cartCount }              = useContext(CartContext);
   const { showToast }              = useToastContext();
   const { theme, toggleTheme }     = useTheme();
+  const { count: wishlistCount }   = useWishlist();
 
   /* ── Scroll listener ── */
   useEffect(() => {
@@ -153,6 +155,16 @@ export default function Navbar() {
 
             {user ? (
               <>
+                {/* Wishlist */}
+                <Link to="/wishlist" className="navbar__wishlist-btn" aria-label="Wishlist" title="Wishlist">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ width: 20, height: 20 }}>
+                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                  </svg>
+                  {wishlistCount > 0 && (
+                    <span className="navbar__wishlist-badge">{wishlistCount}</span>
+                  )}
+                </Link>
+
                 {/* Cart */}
                 <Link to="/cart" className="navbar__cart-btn" aria-label="Shopping cart">
                   <CartIcon />
@@ -275,6 +287,9 @@ export default function Navbar() {
           <NavLink to="/products" className={navLinkClass} onClick={closeMenu}>Products</NavLink>
           {user && (
             <>
+              <NavLink to="/wishlist" className={navLinkClass} onClick={closeMenu}>
+                Wishlist {wishlistCount > 0 && <span className="drawer__badge drawer__badge--wishlist">{wishlistCount}</span>}
+              </NavLink>
               <NavLink to="/cart" className={navLinkClass} onClick={closeMenu}>
                 Cart {cartCount > 0 && <span className="drawer__badge">{cartCount}</span>}
               </NavLink>

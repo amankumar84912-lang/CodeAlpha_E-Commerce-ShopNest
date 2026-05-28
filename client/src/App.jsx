@@ -21,6 +21,7 @@ const CheckoutPage        = lazy(() => import("./pages/CheckoutPage"));
 const OrderConfirmationPage = lazy(() => import("./pages/OrderConfirmationPage"));
 const OrdersPage          = lazy(() => import("./pages/OrdersPage"));
 const ProfilePage         = lazy(() => import("./pages/ProfilePage"));
+const WishlistPage        = lazy(() => import("./pages/WishlistPage"));
 const AdminDashboard      = lazy(() => import("./pages/AdminDashboard"));
 const NotFound            = lazy(() => import("./pages/NotFound"));
 
@@ -48,6 +49,7 @@ export default function App() {
           <Route path="/order-confirmation" element={<ProtectedRoute><OrderConfirmationPage /></ProtectedRoute>} />
           <Route path="/orders"             element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
           <Route path="/profile"            element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+          <Route path="/wishlist"           element={<ProtectedRoute><WishlistPage /></ProtectedRoute>} />
 
           {/* ── Admin ── */}
           <Route path="/admin"   element={<AdminRoute><AdminDashboard /></AdminRoute>} />
