@@ -25,6 +25,69 @@ const features = [
   { icon: "⭐", title: "Quality Guaranteed",  desc: "Every product verified before it ships." },
 ];
 
+const TESTIMONIALS = [
+  {
+    id: 1,
+    name: "Priya Sharma",
+    role: "Verified Buyer",
+    avatar: "P",
+    color: "#6366f1",
+    rating: 5,
+    text: "Absolutely love ShopNest! The product quality is amazing and delivery was super fast. The website is so easy to use — I've already ordered 3 times this month!",
+    product: "Sony WH-1000XM5",
+  },
+  {
+    id: 2,
+    name: "Rahul Verma",
+    role: "Tech Enthusiast",
+    avatar: "R",
+    color: "#8b5cf6",
+    rating: 5,
+    text: "Got my laptop within 3 days. The Razorpay checkout was seamless and the payment was secure. Will definitely be shopping here again. Highly recommend!",
+    product: "Dell XPS 15",
+  },
+  {
+    id: 3,
+    name: "Ananya Patel",
+    role: "Fashion Blogger",
+    avatar: "A",
+    color: "#ec4899",
+    rating: 5,
+    text: "Found the perfect smartwatch at a great price. The product photos are accurate and the quality exceeded my expectations. Customer experience is top-notch!",
+    product: "Apple Watch SE",
+  },
+  {
+    id: 4,
+    name: "Karthik Nair",
+    role: "Software Engineer",
+    avatar: "K",
+    color: "#10b981",
+    rating: 4,
+    text: "Best ecommerce site for electronics in India. Great prices, authentic products, and fast support. The return process was hassle-free too.",
+    product: "Mechanical Keyboard",
+  },
+  {
+    id: 5,
+    name: "Meera Iyer",
+    role: "Verified Buyer",
+    avatar: "M",
+    color: "#f59e0b",
+    rating: 5,
+    text: "ShopNest has become my go-to for all gadgets. Ordered headphones and they arrived in perfect condition with original packaging. 10/10 experience!",
+    product: "Noise Cancelling Earbuds",
+  },
+  {
+    id: 6,
+    name: "Arjun Singh",
+    role: "Gaming Creator",
+    avatar: "A",
+    color: "#f97316",
+    rating: 5,
+    text: "Amazing selection of gaming gear! Got my mechanical keyboard and RGB mouse in one order. Packed securely and delivered on time. Will order again!",
+    product: "Gaming Mouse RGB",
+  },
+];
+
 export default function HomePage() {
   const [products, setProducts] = useState([]);
   const [loading,  setLoading]  = useState(true);
@@ -172,6 +235,43 @@ export default function HomePage() {
                 <div className="feature-card__icon">{icon}</div>
                 <h3 className="feature-card__title">{title}</h3>
                 <p className="feature-card__desc">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ TESTIMONIALS ═══════ */}
+      <section className="testimonials-section">
+        <div className="container">
+          <div className="section-header">
+            <h2 className="section-title">What Our Customers Say</h2>
+            <p className="section-subtitle">Trusted by 120,000+ happy shoppers across India</p>
+          </div>
+          <div className="testimonials-grid">
+            {TESTIMONIALS.map((t) => (
+              <div key={t.id} className="testimonial-card">
+                <div className="testimonial-card__stars">
+                  {Array.from({ length: 5 }, (_, i) => (
+                    <span key={i} className={i < t.rating ? "tstar tstar--on" : "tstar tstar--off"}>★</span>
+                  ))}
+                </div>
+                <p className="testimonial-card__text">"{t.text}"</p>
+                <div className="testimonial-card__product">📦 {t.product}</div>
+                <div className="testimonial-card__author">
+                  <div
+                    className="testimonial-card__avatar"
+                    style={{ background: `${t.color}22`, color: t.color, border: `2px solid ${t.color}44` }}
+                  >
+                    {t.avatar}
+                  </div>
+                  <div>
+                    <p className="testimonial-card__name">{t.name}</p>
+                    <p className="testimonial-card__role">
+                      <span className="testimonial-card__verified">✓</span> {t.role}
+                    </p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

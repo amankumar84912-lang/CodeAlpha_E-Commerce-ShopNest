@@ -1,9 +1,10 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
-import { CartContext } from "../../context/CartContext";
-import { useToastContext } from "../../context/ToastContext";
-import StarRating from "../ui/StarRating";
+import { AuthContext }      from "../../context/AuthContext";
+import { CartContext }      from "../../context/CartContext";
+import { useToastContext }  from "../../context/ToastContext";
+import { useWishlist }      from "../../context/WishlistContext";
+import StarRating           from "../ui/StarRating";
 import "./ProductCard.css";
 
 /* ── Icons ── */
@@ -41,32 +42,35 @@ const ImagePlaceholder = () => (
 );
 
 export default function ProductCard({ product }) {
-  const [imgError,      setImgError]      = useState(false);
-  const [addingToCart,  setAddingToCart]  = useState(false);
-  const [wishlisted,    setWishlisted]    = useState(false);
+  const [imgError,     setImgError]     = useState(false);
+  const [addingToCart, setAddingToCart] = useState(false);
 
-  const { user }         = useContext(AuthContext);
-  const { addToCart }    = useContext(CartContext);
-  const { showToast }    = useToastContext();
-  const navigate         = useNavigate();
+  const { user }                    = useContext(AuthContext);
+  const { addToCart }               = useContext(CartContext);
+  const { showToast }               = useToastContext();
+  const { toggle, isWishlisted }    = useWishlist();
+  const navigate                    = useNavigate();
 
-  const inStock = product.stock > 0;
+  const inStock    = product.stock > 0;
+  const wishlisted = isWishlisted(product._id);
+
+  /* ── Derived discount badge: show on high-rated or high-priced items ── */
+  const discountPct = product.discount ?? null;   // use if stored on model
+  const isNew       = product.numReviews === 0;   // brand-new product
+  const isHot       = product.rating >= 4.5 && product.numReviews >= 5;
 
   const handleAddToCart = async (e) => {
-    e.preventDefault(); // don't navigate if card is wrapped in Link
-
+    e.preventDefault();
     if (!user) {
       showToast("Please sign in to add items to your cart.", "info");
       navigate("/login");
       return;
     }
-
     if (!inStock) return;
-
     setAddingToCart(true);
     try {
       await addToCart(product._id, 1);
-      showToast(`"${product.title}" added to cart!`, "success");
+      showToast(`"${product.title}" added to cart! 🛒`, "success");
     } catch (err) {
       showToast(err.response?.data?.message || "Could not add to cart.", "error");
     } finally {
@@ -76,15 +80,16 @@ export default function ProductCard({ product }) {
 
   const handleWishlist = (e) => {
     e.preventDefault();
-    setWishlisted((v) => !v);
+    toggle(product._id);
     showToast(
-      wishlisted ? "Removed from wishlist" : "Added to wishlist ❤️",
+      wishlisted ? "Removed from wishlist" : "Saved to wishlist ❤️",
       wishlisted ? "info" : "success"
     );
   };
 
   return (
     <article className="product-card">
+
       {/* ── Image ── */}
       <Link to={`/products/${product._id}`} className="product-card__img-link" tabIndex={-1}>
         <div className="product-card__img-wrap">
@@ -102,10 +107,15 @@ export default function ProductCard({ product }) {
             </div>
           )}
 
-          {/* Stock overlay */}
-          {!inStock && (
-            <div className="product-card__out-of-stock">Out of Stock</div>
-          )}
+          {/* Badges */}
+          <div className="product-card__badges">
+            {!inStock && <span className="product-card__badge product-card__badge--out">Out of Stock</span>}
+            {inStock && isNew && <span className="product-card__badge product-card__badge--new">New</span>}
+            {inStock && isHot && !isNew && <span className="product-card__badge product-card__badge--hot">🔥 Hot</span>}
+            {discountPct && inStock && (
+              <span className="product-card__badge product-card__badge--discount">-{discountPct}%</span>
+            )}
+          </div>
 
           {/* Wishlist */}
           <button
@@ -115,6 +125,9 @@ export default function ProductCard({ product }) {
           >
             <HeartIcon filled={wishlisted} />
           </button>
+
+          {/* Out of stock full overlay */}
+          {!inStock && <div className="product-card__oos-overlay" />}
         </div>
       </Link>
 
@@ -127,11 +140,11 @@ export default function ProductCard({ product }) {
           </span>
           {inStock ? (
             <span className="product-card__stock product-card__stock--in">
-              In Stock ({product.stock})
+              ✓ {product.stock} left
             </span>
           ) : (
             <span className="product-card__stock product-card__stock--out">
-              Out of Stock
+              Sold out
             </span>
           )}
         </div>
